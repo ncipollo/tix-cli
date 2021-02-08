@@ -2,8 +2,8 @@ plugins {
     kotlin("multiplatform") version "1.4.30"
 }
 
-group = "me.ncipollo"
-version = "1.0-SNAPSHOT"
+group = "org.tix"
+version = "0.0.1"
 
 repositories {
     mavenCentral()
@@ -22,7 +22,7 @@ kotlin {
     nativeTarget.apply {
         binaries {
             executable {
-                entryPoint = "main"
+                entryPoint = "org.tix.main"
             }
         }
     }
@@ -30,7 +30,15 @@ kotlin {
     macosX64()
     mingwX64()
     sourceSets {
-        val nativeMain by getting
+        val nativeMain by getting {
+            dependencies {
+                implementation("org.tix:core") {
+                    version {
+                        branch = "main"
+                    }
+                }
+            }
+        }
         val nativeTest by getting
         val linuxX64Main by getting
         val linuxX64Test by getting
