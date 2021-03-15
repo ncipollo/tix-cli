@@ -1,5 +1,5 @@
 plugins {
-    kotlin("multiplatform") version "1.4.30"
+    kotlin("multiplatform") version "1.4.31"
 }
 
 group = "org.tix"
@@ -7,6 +7,9 @@ version = "0.0.1"
 
 repositories {
     mavenCentral()
+    jcenter()
+    // TODO: Cleanup when we fix this in core
+    maven { setUrl("https://dl.bintray.com/drewcarlson/mordant") }
 }
 
 kotlin {
