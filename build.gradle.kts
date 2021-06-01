@@ -6,10 +6,16 @@ group = "org.tix"
 version = "0.0.1"
 
 repositories {
-    mavenCentral()
-    jcenter()
-    // TODO: Cleanup when we fix this in core
-    maven { setUrl("https://dl.bintray.com/drewcarlson/mordant") }
+    mavenCentral {
+        content {
+            excludeGroup("net.mamoe.yamlkt")
+        }
+    }
+    jcenter {
+        content {
+            includeGroup("net.mamoe.yamlkt")
+        }
+    }
 }
 
 kotlin {
