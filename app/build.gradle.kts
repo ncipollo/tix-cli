@@ -10,32 +10,50 @@ repositories {
 }
 
 kotlin {
-    val hostOs = System.getProperty("os.name")
-    val nativeTarget = when {
-        hostOs == "Mac OS X" -> macosX64("native")
-        hostOs == "Linux" -> linuxX64("native")
-        else -> throw GradleException("Host OS is not supported in Kotlin/Native.")
+    listOf(
+        linuxX64(),
+        macosX64()
+    ).forEach {
+        it.apply {
+            binaries {
+                executable {
+                    entryPoint = "org.tix.main"
+                }
+            }
+        }
     }
 
-    nativeTarget.apply {
-        binaries {
-            executable {
-                entryPoint = "org.tix.main"
-            }
-        }
-    }
-    linuxX64()
-    macosX64()
     sourceSets {
-        val nativeMain by getting {
+        val commonMain by getting {
             dependencies {
                 implementation("org.tix:core:0.0.1")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0")
             }
         }
-        val nativeTest by getting
-        val linuxX64Main by getting
-        val linuxX64Test by getting
-        val macosX64Main by getting
-        val macosX64Test by getting
+        val commonTest by getting
+
+        val nativeMain by creating { dependsOn(commonMain) }
+        val nativeTest by creating { dependsOn(commonTest) }
+
+        val linuxX64Main by getting { dependsOn(nativeMain) }
+        val linuxX64Test by getting { dependsOn(nativeTest) }
+
+        val macosX64Main by getting { dependsOn(nativeMain) }
+        val macosX64Test by getting { dependsOn(nativeTest) }
+    }
+}
+
+tasks.register("debugBuild") { cliBuild("Debug") }
+tasks.register("releaseBuild") { cliBuild("Release") }
+
+fun Task.cliBuild(buildType: String) {
+    val taskSuffix = when (System.getProperty("os.name")) {
+        "Mac OS X" -> "MacosX64"
+        "Linux" -> "LinuxX64"
+        else -> throw GradleException("Host OS is not supported in Kotlin/Native.")
+    }
+    val buildTasks = listOf("compileKotlin${taskSuffix}", "link${buildType}Executable${taskSuffix}")
+    buildTasks.forEach {
+        dependsOn(tasks.findByName(it))
     }
 }
