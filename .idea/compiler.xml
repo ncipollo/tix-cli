@@ -2,6 +2,12 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="11">
+      <module name="core.commonMain" target="1.8" />
+      <module name="core.commonTest" target="1.8" />
+      <module name="core.jvmMain" target="1.8" />
+      <module name="core.jvmTest" target="1.8" />
+      <module name="core.notWebMain" target="1.8" />
+      <module name="core.notWebTest" target="1.8" />
       <module name="tix-core" target="11" />
       <module name="tix-core.buildSrc" target="11" />
       <module name="tix-core.buildSrc.main" target="11" />

@@ -29,7 +29,8 @@ kotlin {
     sourceSets {
         val nativeMain by getting {
             dependencies {
-                implementation("org.tix:core:0.0.1")
+//                implementation("org.tix:core:0.0.1")
+                implementation(project(":tix-core"))
             }
         }
         val nativeTest by getting
