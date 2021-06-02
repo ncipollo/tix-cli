@@ -2,7 +2,6 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="11">
-      <module name="tix-cli" target="11" />
       <module name="tix-core" target="11" />
       <module name="tix-core.buildSrc" target="11" />
       <module name="tix-core.buildSrc.main" target="11" />

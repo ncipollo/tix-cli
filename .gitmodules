@@ -1,0 +1,3 @@
+[submodule "tix-core"]
+	path = tix-core
+	url = git@github.com:tixorg/tix-core.git
