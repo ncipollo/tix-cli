@@ -26,11 +26,10 @@ kotlin {
     }
     linuxX64()
     macosX64()
-    mingwX64()
     sourceSets {
         val nativeMain by getting {
             dependencies {
-                implementation("org.tix:core")
+                implementation("org.tix:core:0.0.1")
             }
         }
         val nativeTest by getting
