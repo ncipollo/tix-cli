@@ -5,4 +5,3 @@ includeBuild("tix-core") {
         substitute(module("org.tix:core")).with(project(":"))
     }
 }
-include("app")

@@ -32,6 +32,8 @@ kotlin {
         }
         val commonTest by getting
 
+        // Manually creating native targets because the standard native targets don't seem to work correctly with
+        // dependencies which are also Kotlin MPP (in this case tix-core).
         val nativeMain by creating { dependsOn(commonMain) }
         val nativeTest by creating { dependsOn(commonTest) }
 
@@ -43,6 +45,7 @@ kotlin {
     }
 }
 
+// These tasks were create because the standard build task relies on "nativeBuild" which no longer exists.
 tasks.register("debugBuild") { cliBuild("Debug") }
 tasks.register("releaseBuild") { cliBuild("Release") }
 
