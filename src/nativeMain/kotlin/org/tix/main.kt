@@ -10,11 +10,11 @@ import org.tix.feature.plan.presentation.PlanViewEvent
 import platform.posix.exit
 
 fun main(args: Array<String>) {
-    if (args.isEmpty()) {
-        println("no ticket.")
-        exit(1)
+    val path = if (args.isNotEmpty()) {
+        args.first()
+    } else {
+        "~/Desktop/tix/story.md"
     }
-    val path = args.first()
     runBlocking {
         println("in blocking")
         coroutineScope {
