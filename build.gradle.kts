@@ -1,13 +1,13 @@
+repositories {
+    mavenCentral()
+}
+
 plugins {
     kotlin("multiplatform") version "1.7.20"
 }
 
 group = "org.tix"
 version = "0.0.1"
-
-repositories {
-    mavenCentral()
-}
 
 kotlin {
     listOf(
@@ -26,7 +26,9 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("io.github.ncipollo.tix:core:0.0.1")
+                implementation("io.github.ncipollo.tix:core:0.0.3")
+
+                implementation("com.github.ajalt.clikt:clikt:3.5.2")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
             }
         }
