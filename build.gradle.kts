@@ -1,3 +1,5 @@
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
+
 repositories {
     mavenCentral()
     maven {
@@ -9,7 +11,8 @@ repositories {
 }
 
 plugins {
-    kotlin("multiplatform") version "1.7.20"
+    kotlin("multiplatform") version "1.8.21"
+    id("com.codingfeline.buildkonfig") version "0.13.3"
 }
 
 group = "org.tix"
@@ -52,6 +55,14 @@ kotlin {
 
         val macosX64Main by getting { dependsOn(nativeMain) }
         val macosX64Test by getting { dependsOn(nativeTest) }
+    }
+}
+
+buildkonfig {
+    packageName = "org.tix.cli.config"
+    exposeObjectWithName = "TixCLIConfig"
+    defaultConfigs {
+        buildConfigField(STRING, "version", version.toString())
     }
 }
 
