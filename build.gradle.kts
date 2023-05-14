@@ -69,6 +69,9 @@ buildkonfig {
 // These tasks were create because the standard build task relies on "nativeBuild" which no longer exists.
 tasks.register("debugBuild") { cliBuild("Debug") }
 tasks.register("releaseBuild") { cliBuild("Release") }
+tasks.register("releaseCopy", Copy::class) {
+
+}
 
 fun Task.cliBuild(buildType: String) {
     val taskSuffix = when (System.getProperty("os.name")) {

@@ -1,4 +1,4 @@
-package org.tix.cli.command
+package org.tix.cli.command.plan
 
 import com.github.ajalt.clikt.core.CliktCommand
 

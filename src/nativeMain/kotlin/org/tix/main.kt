@@ -6,7 +6,7 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.tix.builder.tixPlanForCLI
-import org.tix.cli.command.PlanCommand
+import org.tix.cli.command.plan.PlanCommand
 import org.tix.cli.command.TixCommand
 import org.tix.feature.plan.presentation.PlanViewEvent
 
