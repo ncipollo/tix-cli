@@ -26,7 +26,7 @@ class PlanCommandRunner(private val echo: (String) -> Unit) {
                 viewModel.sendViewEvent(
                     PlanViewEvent.PlanUsingMarkdown(
                         path = path,
-                        shouldDryRun = true
+                        shouldDryRun = shouldDryRun
                     )
                 )
             }

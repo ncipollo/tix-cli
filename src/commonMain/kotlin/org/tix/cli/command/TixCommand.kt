@@ -21,7 +21,6 @@ class TixCommand: CliktCommand(invokeWithoutSubcommand = true) {
     override fun run() {
         if (currentContext.invokedSubcommand == null) {
             commandRunner.runCommand(path ?: "", shouldDryRun = false)
-            echo("Provided path: $path")
         }
     }
 }
