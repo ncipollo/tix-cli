@@ -1,4 +1,6 @@
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
+import org.apache.tools.ant.taskdefs.condition.Os
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTargetWithHostTests
 
 repositories {
     mavenCentral()
@@ -19,18 +21,20 @@ group = "org.tix"
 version = "0.0.1"
 
 kotlin {
-    listOf(
-        linuxX64(),
-        macosX64()
-    ).forEach {
+    val platforms = listOf(linuxX64(), macosX64())
+    platforms.forEach {
         it.apply {
             binaries {
                 executable {
+                    outputDirectory = File("/Users/ncipollo/Desktop")
+                    baseName = "tix"
                     entryPoint = "org.tix.main"
                 }
             }
         }
     }
+
+    registerBuildTasks(platforms)
 
     sourceSets {
         val commonMain by getting {
@@ -66,11 +70,26 @@ buildkonfig {
     }
 }
 
-// These tasks were create because the standard build task relies on "nativeBuild" which no longer exists.
-tasks.register("debugBuild") { cliBuild("Debug") }
-tasks.register("releaseBuild") { cliBuild("Release") }
-tasks.register("releaseCopy", Copy::class) {
+fun registerBuildTasks(platforms: List<KotlinNativeTargetWithHostTests>) {
+    // These tasks were create because the standard build task relies on "nativeBuild" which no longer exists.
+    tasks.register("debugBuild") { cliBuild("Debug") }
+    tasks.register("releaseBuild") { cliBuild("Release") }
+    tasks.register("releaseCopy", Copy::class) {
+        platforms
+            .forEach { println("name: ${it.name}") }
 
+        println("OS - ${System.getProperty("os.name")}")
+        println("Arch - ${System.getProperty("os.arch")}")
+        if (Os.isFamily(Os.FAMILY_MAC)) {
+            println("Is mac")
+            if(Os.isArch("aarch64")) {
+                println("Is intel")
+            } else {
+                println("Is arm")
+            }
+        }
+
+    }
 }
 
 fun Task.cliBuild(buildType: String) {
@@ -83,4 +102,8 @@ fun Task.cliBuild(buildType: String) {
     buildTasks.forEach {
         dependsOn(tasks.findByName(it))
     }
+}
+
+sealed class NativeBuildTarget(val taskSuffix: String, val targetName: String) {
+    object MacOSX64: NativeBuildTarget("MacosX64", "macosX64")
 }
