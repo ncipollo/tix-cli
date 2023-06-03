@@ -1,6 +1,8 @@
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 import org.apache.tools.ant.taskdefs.condition.Os
+import org.jetbrains.kotlin.builtins.StandardNames.FqNames.target
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTargetWithHostTests
+import org.jetbrains.kotlin.gradle.plugin.mpp.NativeBuildType
 
 repositories {
     mavenCentral()
@@ -21,12 +23,11 @@ group = "org.tix"
 version = "0.0.1"
 
 kotlin {
-    val platforms = listOf(linuxX64(), macosX64())
+    val platforms = listOf(linuxX64(), macosX64(), macosArm64())
     platforms.forEach {
         it.apply {
             binaries {
                 executable {
-                    outputDirectory = File("/Users/ncipollo/Desktop")
                     baseName = "tix"
                     entryPoint = "org.tix.main"
                 }
@@ -39,7 +40,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("io.github.ncipollo.tix:core:1.0.0-SNAPSHOT"){
+                implementation("io.github.ncipollo.tix:core:1.0.0-SNAPSHOT") {
                     isChanging = true
                 }
 
@@ -57,6 +58,8 @@ kotlin {
         val linuxX64Main by getting { dependsOn(nativeMain) }
         val linuxX64Test by getting { dependsOn(nativeTest) }
 
+        val macosArm64Main by getting { dependsOn(nativeMain) }
+        val macosArm64Test by getting { dependsOn(nativeTest) }
         val macosX64Main by getting { dependsOn(nativeMain) }
         val macosX64Test by getting { dependsOn(nativeTest) }
     }
@@ -74,36 +77,53 @@ fun registerBuildTasks(platforms: List<KotlinNativeTargetWithHostTests>) {
     // These tasks were create because the standard build task relies on "nativeBuild" which no longer exists.
     tasks.register("debugBuild") { cliBuild("Debug") }
     tasks.register("releaseBuild") { cliBuild("Release") }
-    tasks.register("releaseCopy", Copy::class) {
-        platforms
-            .forEach { println("name: ${it.name}") }
+    tasks.register("install", Copy::class) {
+        val installPath = System.getenv("TIX_INSTALL_PATH")
+            ?: throw GradleException("TIX_INSTALL_PATH must be present in the environment")
+        val buildTarget = nativeBuildTarget()
+        val sourcePath = platforms
+            .filter { it.name == buildTarget.targetName }
+            .flatMap { it.binaries }
+            .firstOrNull { it.buildType == NativeBuildType.RELEASE }
+            ?.outputFile
+            ?: throw GradleException("No release target for current platform (${nativeBuildTarget()})")
 
-        println("OS - ${System.getProperty("os.name")}")
-        println("Arch - ${System.getProperty("os.arch")}")
-        if (Os.isFamily(Os.FAMILY_MAC)) {
-            println("Is mac")
-            if(Os.isArch("aarch64")) {
-                println("Is intel")
-            } else {
-                println("Is arm")
-            }
-        }
-
+        println(installPath)
+        from(sourcePath)
+        into(File(installPath))
+        rename(sourcePath.name, "tix")
     }
 }
 
 fun Task.cliBuild(buildType: String) {
-    val taskSuffix = when (System.getProperty("os.name")) {
-        "Mac OS X" -> "MacosX64"
-        "Linux" -> "LinuxX64"
-        else -> throw GradleException("Host OS is not supported in Kotlin/Native.")
-    }
-    val buildTasks = listOf("compileKotlin${taskSuffix}", "link${buildType}Executable${taskSuffix}")
-    buildTasks.forEach {
+    val target = nativeBuildTarget()
+    val buildTaskNames = target.buildTaskNames(buildType)
+    buildTaskNames.forEach {
         dependsOn(tasks.findByName(it))
     }
 }
 
-sealed class NativeBuildTarget(val taskSuffix: String, val targetName: String) {
-    object MacOSX64: NativeBuildTarget("MacosX64", "macosX64")
+fun nativeBuildTarget() =
+    when (System.getProperty("os.name")) {
+        "Mac OS X" -> if (System.getProperty("os.arch") == "aarch64") {
+            NativeBuildTarget.MacOSArm64
+        } else {
+            NativeBuildTarget.MacOSX64
+        }
+
+        "Linux" -> NativeBuildTarget.LinuxX64
+        else -> throw GradleException("Host OS is not currently supported.")
+    }
+
+sealed class NativeBuildTarget(private val taskSuffix: String, val targetName: String) {
+    object LinuxX64 : NativeBuildTarget("LinuxX64", "linuxX64")
+    object MacOSX64 : NativeBuildTarget("MacosX64", "macosX64")
+    object MacOSArm64 : NativeBuildTarget("MacosArm64", "macosArm64")
+
+    override fun toString() = this::class.simpleName ?: ""
+
+    fun buildTaskNames(buildType: String) = listOf(
+        "compileKotlin${taskSuffix}",
+        "link${buildType}Executable${taskSuffix}"
+    )
 }
