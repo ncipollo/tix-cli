@@ -78,6 +78,7 @@ fun registerBuildTasks(platforms: List<KotlinNativeTargetWithHostTests>) {
     tasks.register("debugBuild") { cliBuild("Debug") }
     tasks.register("releaseBuild") { cliBuild("Release") }
     tasks.register("install", Copy::class) {
+        dependsOn("releaseBuild")
         val installPath = System.getenv("TIX_INSTALL_PATH")
             ?: throw GradleException("TIX_INSTALL_PATH must be present in the environment")
         val buildTarget = nativeBuildTarget()
