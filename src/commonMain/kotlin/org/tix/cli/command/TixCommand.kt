@@ -1,5 +1,6 @@
 package org.tix.cli.command
 
+import com.github.ajalt.clikt.completion.completionOption
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.optional
@@ -19,6 +20,7 @@ class TixCommand : CliktCommand(invokeWithoutSubcommand = true) {
     private val commandRunner = PlanCommandRunner { echo(it) }
 
     init {
+        completionOption()
         versionOption("") {
             """
             🚀 tix version ${TixCLIConfig.version}
