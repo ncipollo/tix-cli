@@ -1,9 +1,6 @@
 package org.tix.cli.command.plan
 
-import com.github.ajalt.clikt.core.CliktCommand
-import com.github.ajalt.clikt.output.TermUi.echo
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.tix.builder.tixPlanForCLI
