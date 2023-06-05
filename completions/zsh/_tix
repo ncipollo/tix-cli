@@ -14,13 +14,23 @@ function _tix {
                 _plan
             ;;
     esac
+
+    case $line[1] in
+            *)
+                _default
+            ;;
+    esac
 }
 
 function _plan {
-    _arguments '-d[prints out ticket information instead of creating tickets]' \
+   _arguments '-d[prints out ticket information instead of creating tickets]' \
     '-h[prints help]' \
-    '-q[suppresses all log output except errors]' \
-    '-v[enables verbose output]' \
-    '-version[prints tix version]' \
      '::optional arg:_files'
+}
+
+function _default {
+    _arguments '-d[prints out ticket information instead of creating tickets]' \
+        '-h[prints help]' \
+        '--version[prints out tix version]' \
+        '::optional arg:_files'
 }
