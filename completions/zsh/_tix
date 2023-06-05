@@ -1,0 +1,26 @@
+#compdef _tix tix
+
+# Docs - http://zsh.sourceforge.net/Doc/Release/Completion-System.html#Completion-System
+
+function _tix {
+    local line
+
+    _arguments -C \
+        '1: :(plan)' \
+        '*::arg:->args'
+
+    case $line[1] in
+            plan)
+                _plan
+            ;;
+    esac
+}
+
+function _plan {
+    _arguments '-d[prints out ticket information instead of creating tickets]' \
+    '-h[prints help]' \
+    '-q[suppresses all log output except errors]' \
+    '-v[enables verbose output]' \
+    '-version[prints tix version]' \
+     '::optional arg:_files'
+}
