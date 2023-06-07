@@ -1,6 +1,5 @@
+
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
-import org.apache.tools.ant.taskdefs.condition.Os
-import org.jetbrains.kotlin.builtins.StandardNames.FqNames.target
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTargetWithHostTests
 import org.jetbrains.kotlin.gradle.plugin.mpp.NativeBuildType
 
@@ -88,8 +87,7 @@ fun registerBuildTasks(platforms: List<KotlinNativeTargetWithHostTests>) {
             .firstOrNull { it.buildType == NativeBuildType.RELEASE }
             ?.outputFile
             ?: throw GradleException("No release target for current platform (${nativeBuildTarget()})")
-
-        println(installPath)
+        
         from(sourcePath)
         into(File(installPath))
         rename(sourcePath.name, "tix")
