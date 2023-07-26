@@ -87,7 +87,7 @@ fun registerBuildTasks(platforms: List<KotlinNativeTargetWithHostTests>) {
             .firstOrNull { it.buildType == NativeBuildType.RELEASE }
             ?.outputFile
             ?: throw GradleException("No release target for current platform (${nativeBuildTarget()})")
-        
+
         from(sourcePath)
         into(File(installPath))
         rename(sourcePath.name, "tix")

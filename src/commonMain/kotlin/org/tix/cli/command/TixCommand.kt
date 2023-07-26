@@ -9,6 +9,7 @@ import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.versionOption
 import org.tix.cli.command.plan.PlanCommandRunner
 import org.tix.cli.config.TixCLIConfig
+import org.tix.config.TixCoreConfig
 
 class TixCommand : CliktCommand(invokeWithoutSubcommand = true) {
     private val path by argument().optional()
@@ -23,7 +24,8 @@ class TixCommand : CliktCommand(invokeWithoutSubcommand = true) {
         completionOption()
         versionOption("") {
             """
-            🚀 tix version ${TixCLIConfig.version}
+            🚀 tix cli version: ${TixCLIConfig.version}
+            📚 tix core version: ${TixCoreConfig.version}
             """.trimIndent()
         }
     }
