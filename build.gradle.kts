@@ -44,7 +44,7 @@ kotlin {
                 }
 
                 implementation("com.github.ajalt.clikt:clikt:3.5.2")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2")
             }
         }
         val commonTest by getting
