@@ -19,7 +19,7 @@ plugins {
 }
 
 group = "org.tix"
-version = "0.0.1"
+version = libs.versions.tix.cli.get()
 
 kotlin {
     val platforms = listOf(linuxX64(), macosX64(), macosArm64())
