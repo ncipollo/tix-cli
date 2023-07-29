@@ -15,6 +15,8 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.11
+      - name: Install Curl
+        run: sudo apt-get install libcurl4-openssl-dev
       - name: Build tix for linux
         env:
           TIX_INSTALL_PATH: out/tix
