@@ -25,7 +25,7 @@ jobs:
 
       - name: Build tix for linux
         env:
-          TIX_INSTALL_PATH: out/tix
+          TIX_INSTALL_PATH: out
         run: ./gradlew install
 
       - name: Check output folder
