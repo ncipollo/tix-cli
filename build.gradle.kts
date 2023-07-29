@@ -39,12 +39,10 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("io.github.ncipollo.tix:core:1.0.0-SNAPSHOT") {
-                    isChanging = true
-                }
+                implementation(libs.tix.core)
 
-                implementation("com.github.ajalt.clikt:clikt:3.5.2")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2")
+                implementation(libs.clickt)
+                implementation(libs.coroutine.core)
             }
         }
         val commonTest by getting
