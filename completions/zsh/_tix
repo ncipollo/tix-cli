@@ -6,12 +6,18 @@ function _tix {
     local line
 
     _arguments -C \
-        '1: :(plan)' \
+        '1: :(plan quick)' \
         '*::arg:->args'
 
     case $line[1] in
             plan)
                 _plan
+            ;;
+    esac
+
+    case $line[1] in
+            quick)
+                 _quick
             ;;
     esac
 
@@ -25,6 +31,14 @@ function _tix {
 function _plan {
    _arguments '-d[prints out ticket information instead of creating tickets]' \
     '-h[prints help]' \
+    '--include=[optional name of configuration to include]' \
+     '::optional arg:_files'
+}
+
+function _quick {
+   _arguments '-d[prints out ticket information instead of creating tickets]' \
+    '-h[prints help]' \
+    '--include=[optional name of configuration to include]' \
      '::optional arg:_files'
 }
 
@@ -32,5 +46,6 @@ function _default {
     _arguments '-d[prints out ticket information instead of creating tickets]' \
         '-h[prints help]' \
         '--version[prints out tix version]' \
+        '--include=[optional name of configuration to include]' \
         '::optional arg:_files'
 }
