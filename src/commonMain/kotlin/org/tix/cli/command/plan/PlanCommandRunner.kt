@@ -7,7 +7,7 @@ import org.tix.builder.tixPlanForCLI
 import org.tix.feature.plan.presentation.PlanViewEvent
 
 class PlanCommandRunner(private val echo: (String) -> Unit) {
-    fun runCommand(path: String, shouldDryRun: Boolean) {
+    fun runCommand(viewEvent: PlanViewEvent) {
         runBlocking {
             val viewModel = tixPlanForCLI().planViewModel(this)
             var collectJob: Job? = null
@@ -20,12 +20,7 @@ class PlanCommandRunner(private val echo: (String) -> Unit) {
                 }
             }
             launch {
-                viewModel.sendViewEvent(
-                    PlanViewEvent.PlanUsingMarkdown(
-                        path = path,
-                        shouldDryRun = shouldDryRun
-                    )
-                )
+                viewModel.sendViewEvent(viewEvent)
             }
         }
     }
