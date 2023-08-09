@@ -1,8 +1,8 @@
 [versions]
 coroutines = "1.7.2"
 clickt = "3.5.2"
-tix-core = "1.0.0-SNAPSHOT"
-tix-cli = "main"
+tix-core = "0.2.0"
+tix-cli = "0.11.1"
 #tix-core-snap = "1.0.0-SNAPSHOT"
 #tix-cli-snap = "main"
 
