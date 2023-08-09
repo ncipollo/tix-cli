@@ -6,8 +6,14 @@ function _tix {
     local line
 
     _arguments -C \
-        '1: :(plan quick)' \
+        '1: :(info plan quick)' \
         '*::arg:->args'
+
+    case $line[1] in
+                info)
+                    _info
+                ;;
+        esac
 
     case $line[1] in
             plan)
@@ -26,6 +32,11 @@ function _tix {
                 _default
             ;;
     esac
+}
+
+function _info {
+   _arguments -C '1: :(fields)' \
+   '::optional arg:_files'
 }
 
 function _plan {

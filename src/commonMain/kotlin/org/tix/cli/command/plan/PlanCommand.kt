@@ -9,8 +9,8 @@ import org.tix.config.domain.ConfigurationSourceOptions
 import org.tix.feature.plan.domain.parse.MarkdownFileSource
 import org.tix.feature.plan.presentation.PlanViewEvent
 
-class PlanCommand: CliktCommand() {
-    private val path by argument().optional()
+class PlanCommand: CliktCommand(help = "mass produce tickets from a markdown document") {
+    private val path by argument(help = "optional workspace path to locale a tix config").optional()
     private val includeConfig by option(
         "-include", "--include", "-config", "--config",
         help = "name of configuration to include"

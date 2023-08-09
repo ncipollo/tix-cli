@@ -6,8 +6,8 @@ import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
 import org.tix.feature.plan.presentation.PlanViewEvent
 
-class QuickCommand: CliktCommand() {
-    private val title by argument()
+class QuickCommand: CliktCommand(help = "create a quick ticket form the provided message") {
+    private val title by argument(help = "title of the ticket to create")
     private val includeConfig by option(
         "-include", "--include", "-config", "--config",
         help = "name of configuration to include"
