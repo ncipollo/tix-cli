@@ -12,7 +12,7 @@ import org.tix.error.TixError
 import org.tix.error.toTixError
 import org.tix.integrations.jira.field.Field
 
-class FieldInfoCommand : CliktCommand(name = "field", help = "print jira field info") {
+class FieldInfoCommand : CliktCommand(name = "fields", help = "print jira field info") {
     private val path by argument(help = "optional workspace path to locale a tix config").optional()
     private val includeConfig by option(
         "-include", "--include", "-config", "--config",
@@ -38,12 +38,12 @@ class FieldInfoCommand : CliktCommand(name = "field", help = "print jira field i
 
     private fun echoFields(fields: List<Field>) {
         echo("""
-            Field Name: Field ID
+            Field Name : Field ID
             ================================
         """.trimIndent())
         val output = fields
             .sortedBy { it.name }
-            .joinToString("\n") { "${it.name}:${it.id}" }
+            .joinToString("\n") { "${it.name} : ${it.id}" }
         echo(output)
     }
 
