@@ -1,0 +1,9 @@
+[repository]
+enable_commit = true
+
+[[subprojects]]
+repo_url = "git@github.com:ncipollo/homebrew-tools.git"
+
+[[transforms]]
+path = 'gradle/libs.versions.toml'
+replace = 'tix-cli-release = "{version}"'
