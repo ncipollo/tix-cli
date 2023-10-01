@@ -1,4 +1,3 @@
-
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTargetWithHostTests
 import org.jetbrains.kotlin.gradle.plugin.mpp.NativeBuildType
@@ -18,8 +17,13 @@ plugins {
     id("com.codingfeline.buildkonfig") version "0.13.3"
 }
 
+val isRelease = System.getenv("IS_TIX_RELEASE") == "true"
 group = "org.tix"
-version = libs.versions.tix.cli.get()
+version = if (isRelease) {
+    libs.versions.tix.cli.release.get()
+} else {
+    libs.versions.tix.cli.snap.get()
+}
 
 kotlin {
     val platforms = listOf(linuxX64(), macosX64(), macosArm64())
@@ -39,7 +43,11 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(libs.tix.core)
+                if (isRelease) {
+                    implementation(libs.tix.core.release)
+                } else {
+                    implementation(libs.tix.core.snap)
+                }
 
                 implementation(libs.clickt)
                 implementation(libs.coroutine.core)
