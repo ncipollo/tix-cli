@@ -2,7 +2,7 @@
 coroutines = "1.7.2"
 clickt = "3.5.2"
 
-tix-core-release = "0.3.0"
+tix-core-release = "0.3.1"
 tix-cli-release = "0.12.3"
 
 tix-core-snap = "1.0.0-SNAPSHOT"
