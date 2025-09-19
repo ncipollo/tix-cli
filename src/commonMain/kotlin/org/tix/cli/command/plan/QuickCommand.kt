@@ -1,12 +1,15 @@
 package org.tix.cli.command.plan
 
 import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
 import org.tix.feature.plan.presentation.PlanViewEvent
 
-class QuickCommand : CliktCommand(help = "create a quick ticket form the provided message") {
+class QuickCommand : CliktCommand() {
+    override fun help(context: Context) = "create a quick ticket from the provided message"
+    
     private val title by argument(help = "title of the ticket to create")
     private val includeConfig by option(
         "-include", "--include", "-config", "--config",

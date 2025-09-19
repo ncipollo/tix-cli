@@ -14,7 +14,7 @@ import org.tix.config.domain.ConfigurationSourceOptions
 import org.tix.feature.plan.domain.parse.MarkdownFileSource
 import org.tix.feature.plan.presentation.PlanViewEvent
 
-class TixCommand : CliktCommand(invokeWithoutSubcommand = true) {
+class TixCommand : CliktCommand() {
     private val path by argument(help = "optional workspace path to locale a tix config").optional()
     private val includeConfig by option(
         "-include", "--include", "-config", "--config",
@@ -26,6 +26,8 @@ class TixCommand : CliktCommand(invokeWithoutSubcommand = true) {
     ).flag()
 
     private val commandRunner = PlanCommandRunner { echo(it) }
+
+    override val invokeWithoutSubcommand = true
 
     init {
         completionOption()

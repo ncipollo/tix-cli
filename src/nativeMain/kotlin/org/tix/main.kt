@@ -1,5 +1,6 @@
 package org.tix
 
+import com.github.ajalt.clikt.core.main
 import com.github.ajalt.clikt.core.subcommands
 import org.tix.cli.command.TixCommand
 import org.tix.cli.command.info.FieldInfoCommand

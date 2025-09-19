@@ -1,6 +1,7 @@
 package org.tix.cli.command.info
 
 import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.core.ProgramResult
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.optional
@@ -12,7 +13,9 @@ import org.tix.error.TixError
 import org.tix.error.toTixError
 import org.tix.integrations.jira.field.Field
 
-class FieldInfoCommand : CliktCommand(name = "fields", help = "print jira field info") {
+class FieldInfoCommand : CliktCommand(name = "fields") {
+    override fun help(context: Context) = "print jira field info"
+    
     private val path by argument(help = "optional workspace path to locale a tix config").optional()
     private val includeConfig by option(
         "-include", "--include", "-config", "--config",
