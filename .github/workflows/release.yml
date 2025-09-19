@@ -1,0 +1,104 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  create-draft-release:
+    runs-on: ubuntu-latest
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+      release_id: ${{ steps.create_release.outputs.id }}
+    steps:
+      - name: Create Draft Release
+        id: create_release
+        uses: ncipollo/release-action@v1
+        with:
+          draft: true
+          generateReleaseNotes: true
+
+  build-linux:
+    needs: create-draft-release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Install Curl
+        run: sudo apt-get install libcurl4-openssl-dev
+
+      - name: Build tix for Linux
+        env:
+          TIX_INSTALL_PATH: out
+          IS_TIX_RELEASE: true
+        run: ./gradlew install
+
+      - name: Check output folder
+        run: ls -la out
+
+      - name: Upload Linux artifact to release
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          omitBodyDuringUpdate: true
+          omitDraftDuringUpdate: true
+          omitNameDuringUpdate: true
+          omitPrereleaseDuringUpdate: true
+          artifacts: "out/tix"
+          artifactContentType: "application/octet-stream"
+
+  build-macos:
+    needs: create-draft-release
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Build tix for macOS
+        env:
+          TIX_INSTALL_PATH: out
+          IS_TIX_RELEASE: true
+        run: ./gradlew install
+
+      - name: Check output folder
+        run: ls -la out
+
+      - name: Upload macOS artifact to release
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          omitBodyDuringUpdate: true
+          omitDraftDuringUpdate: true
+          omitNameDuringUpdate: true
+          omitPrereleaseDuringUpdate: true
+          artifacts: "out/tix"
+          artifactContentType: "application/octet-stream"
+
+  finalize-release:
+    needs: [build-linux, build-macos]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Publish Release
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          draft: false
+          omitBodyDuringUpdate: true
+          omitNameDuringUpdate: true
+          omitPrereleaseDuringUpdate: true
