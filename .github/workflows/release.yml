@@ -45,6 +45,9 @@ jobs:
       - name: Check output folder
         run: ls -la out
 
+      - name: Rename Linux binary
+        run: mv out/tix out/tix-linux
+
       - name: Upload Linux artifact to release
         uses: ncipollo/release-action@v1
         with:
@@ -53,7 +56,7 @@ jobs:
           omitDraftDuringUpdate: true
           omitNameDuringUpdate: true
           omitPrereleaseDuringUpdate: true
-          artifacts: "out/tix"
+          artifacts: "out/tix-linux"
           artifactContentType: "application/octet-stream"
 
   build-macos:
@@ -79,6 +82,9 @@ jobs:
       - name: Check output folder
         run: ls -la out
 
+      - name: Rename macOS binary
+        run: mv out/tix out/tix-mac
+
       - name: Upload macOS artifact to release
         uses: ncipollo/release-action@v1
         with:
@@ -87,7 +93,7 @@ jobs:
           omitDraftDuringUpdate: true
           omitNameDuringUpdate: true
           omitPrereleaseDuringUpdate: true
-          artifacts: "out/tix"
+          artifacts: "out/tix-mac"
           artifactContentType: "application/octet-stream"
 
   finalize-release:
