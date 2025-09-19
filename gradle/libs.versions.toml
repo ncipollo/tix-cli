@@ -3,7 +3,7 @@ coroutines = "1.10.2"
 clickt = "5.0.3"
 
 tix-core-release = "0.5.0"
-tix-cli-release = "0.13.0"
+tix-cli-release = "0.13.1"
 
 tix-core-snap = "1.0.0-SNAPSHOT"
 tix-cli-snap = "main"
