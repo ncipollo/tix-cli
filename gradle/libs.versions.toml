@@ -1,8 +1,8 @@
 [versions]
-coroutines = "1.7.2"
-clickt = "3.5.2"
+coroutines = "1.10.2"
+clickt = "5.0.3"
 
-tix-core-release = "0.4.0"
+tix-core-release = "0.5.0"
 tix-cli-release = "0.13.0"
 
 tix-core-snap = "1.0.0-SNAPSHOT"

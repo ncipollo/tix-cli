@@ -13,8 +13,9 @@ repositories {
 }
 
 plugins {
-    kotlin("multiplatform") version "1.9.10"
-    id("com.codingfeline.buildkonfig") version "0.13.3"
+    kotlin("multiplatform") version "2.2.10"
+    id("com.codingfeline.buildkonfig") version "0.17.1"
+    id("com.github.ben-manes.versions") version "0.52.0"
 }
 
 val isRelease = System.getenv("IS_TIX_RELEASE") == "true"
