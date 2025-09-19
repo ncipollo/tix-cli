@@ -45,6 +45,8 @@ version = if (isRelease) {
 }
 
 kotlin {
+    applyDefaultHierarchyTemplate()
+    
     val platforms = listOf(linuxX64(), macosX64(), macosArm64())
     platforms.forEach {
         it.apply {
@@ -74,18 +76,17 @@ kotlin {
         }
         val commonTest by getting
 
-        // Manually creating native targets because the standard native targets don't seem to work correctly with
-        // dependencies which are also Kotlin MPP (in this case tix-core).
-        val nativeMain by creating { dependsOn(commonMain) }
-        val nativeTest by creating { dependsOn(commonTest) }
+        // Native targets are automatically created by applyDefaultHierarchyTemplate()
+        val nativeMain by getting
+        val nativeTest by getting
 
-        val linuxX64Main by getting { dependsOn(nativeMain) }
-        val linuxX64Test by getting { dependsOn(nativeTest) }
+        val linuxX64Main by getting
+        val linuxX64Test by getting
 
-        val macosArm64Main by getting { dependsOn(nativeMain) }
-        val macosArm64Test by getting { dependsOn(nativeTest) }
-        val macosX64Main by getting { dependsOn(nativeMain) }
-        val macosX64Test by getting { dependsOn(nativeTest) }
+        val macosArm64Main by getting
+        val macosArm64Test by getting
+        val macosX64Main by getting
+        val macosX64Test by getting
     }
 }
 
